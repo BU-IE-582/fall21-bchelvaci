@@ -1,1 +1,1 @@
-## Index file of journal
+## Progress Journal
