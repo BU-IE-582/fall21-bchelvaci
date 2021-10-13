@@ -3,4 +3,4 @@ This is my [Progress Journal website](https://bu-ie-582.github.io/fall21-helvaci
 
 ## Homework Assignments
 
-There will be several homework assignments for this course in this semester bla bla.
+There will be several homework assignments for this course in this semester.
