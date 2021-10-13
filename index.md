@@ -1,2 +1,2 @@
 # Welcome to Burak Can Helvacı's GitHub Pages
-This is my [Progress Journal website](https://bu-ie-582.github.io/fall21-bchelvaci/) created for IE 582 course at Bogazici University. You can also visit my personal Github [Website](https://bchelvaci.github.io/). 
+This is my [Progress Journal website](https://bu-ie-582.github.io/fall21-helvaciburakcan/) created for IE 582 course at Bogazici University. You can also visit my personal Github [Website](https://helvaciburakcan.github.io/). 
