@@ -10,4 +10,4 @@ There will be several homework assignments for this course in this semester.
 Due to the package problem, I can not run the second question in jupyter notebook. [You can see the pdf file for outputs of the 2nd question.](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW1/HW1-Q2.pdf)
 
 ## Homework 2
-[Dimensionality reduction-Reconstructing Turkey Map-Dimensionality reduction for time series data](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW2/HW2.html)
+[Dimensionality reduction-Reconstructing Turkey Map-Dimensionality reduction for time series data](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW2/)
