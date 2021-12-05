@@ -13,4 +13,4 @@ Due to the package problem, I can not run the second question in jupyter noteboo
 [Dimensionality reduction-Reconstructing Turkey Map-Dimensionality reduction for time series data](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW2/HW2_2.html)
 
 ## Homework 3
-[On the use of distance information for UwaveGesture Recognition Task-Linear models on alternative representations of the data](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW3/HW2_3.html)
+[On the use of distance information for UwaveGesture Recognition Task-Linear models on alternative representations of the data](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW3/HW3.html)
