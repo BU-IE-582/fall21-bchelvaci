@@ -1,0 +1,170 @@
+---
+title: "HW4"
+author: "Burak Can Helvacı"
+---
+## Task : Multiple Instance Learning
+Suggest two alternative bag-level representations for the given multiple instance learning problem. Based on the proposed bag-level representations for Musk1 dataset, evaluate at least two reasonable classifiers (of your choice). Specify the best set of parameter combination for the proposed representations and your classifier. Use the accuracy based on 10-fold cross-validation on the training data as your primary performance metric in your evaluations.
+
+Alternative Representations:
+*Euclidian Distance
+*Principal Component Analysis
+
+Alternative Classifiers
+*Random Forest
+*Gradient Boosting
+
+```{r}
+library(data.table)
+library(caret)
+library(ranger)
+library(gbm)
+
+musk <- read.csv("Musk1.csv", header = FALSE)
+dim(musk)
+head(musk)
+```
+
+As first representation I choose distance matrix of instances using euclidian distance to decide which instance to represent each bag.
+The instance which is the most dissimilar to instances in other bags is chosen to represent the respective bag.
+Dissimilarity is calculated as sum of distances to out of bag instances. 
+
+```{r, error=TRUE}
+musk2 <- musk
+musk2 <- scale(musk2[,3:168])
+musk2 <- as.matrix(dist(musk2))
+musk2 <- cbind(musk$V1, musk$V2, 1:length(musk$V1),musk2)
+musk2 <- as.data.frame(musk2)
+setnames(musk2, c("V1","V2","V3"), c("BagClass","BagId","Instance_Id"))
+
+lst <- c()
+for(i in 1:length(musk2$BagId)){
+  aa = musk2[musk2$BagId == i,]
+  aa = aa[,-1*(aa$Instance_Id +3)]
+  bb = rowSums(aa[,4:ncol(aa)])
+  cc = which.max(bb)
+  lst <- c(lst,aa$Instance_Id[cc])
+}
+
+musk3 <- musk[lst,]
+musk3 <- musk3[,-2]
+setnames(musk3, c("V1"), c("class"))
+```
+
+As second representation I used PCA. For every class, PCA is carried out. In total there are 92 separate PCA is conducted.
+First component (eigenvector) of the PCA is used to represent the class.
+
+```{r}
+lst2 = list()
+musk4 <- musk
+musk4 <- setnames(musk, c("V1","V2"), c("BagClass","BagId")) 
+
+for (i in 1:length(unique(musk4[["BagId"]]))){
+  res = prcomp(musk4[musk4$BagId==i, 3:ncol(musk4)])
+  lst2[[i]] = t(res$rotation[,1])
+}
+
+musk4 <- do.call(rbind.data.frame, lst2)
+musk4$class <- c(rep(1,47),rep(0,45))
+```
+
+As first classifier. I will use random forest. 
+Random forest with first representation
+```{r}
+n_folds <- 10
+fitControl <- trainControl(method = "cv", number = n_folds,
+                           classProbs=TRUE, summaryFunction=twoClassSummary)
+
+rf_grid <- expand.grid(mtry = seq(10, 30, 2),
+                       splitrule = c("gini", "extratrees"),
+                       min.node.size = c(5))
+
+musk3$class <- ifelse(musk3$class==1, "Yes", "No")
+setnames(musk3, "class", "y")  
+
+set.seed(1)                      
+rf_fit1 <- caret::train(y ~ ., data = musk3,
+                method = "ranger", metric="ROC",
+                trControl = fitControl, 
+                tuneGrid = rf_grid)
+
+rf_fit1$bestTune
+plot(rf_fit1)
+rf_fit1$results[20,]
+preds <- predict(rf_fit1)
+cf <- table(preds,musk3$y)
+accuracy_rf = sum(diag(cf)/sum(cf))
+cf
+accuracy_rf
+```
+
+Random forest with second representation
+
+```{r}
+musk4$class <- ifelse(musk4$class==1, "Yes", "No")
+setnames(musk4, "class", "y") 
+
+set.seed(1)                      
+rf_fit2 <- caret::train(y ~ ., data = musk4,
+                        method = "ranger", metric="ROC",
+                        trControl = fitControl, 
+                        tuneGrid = rf_grid)
+rf_fit2$bestTune
+rf_fit2$results[12,]
+plot(rf_fit2)
+preds <- predict(rf_fit2)
+cf <- table(preds,musk4$y)
+accuracy_rf = sum(diag(cf)/sum(cf))
+print(cf)
+print(accuracy_rf)
+```
+
+As last classifier. I will use gradient boosting.
+Gradient boosting with first representation
+
+```{r}
+gbmGrid <- expand.grid(interaction.depth = c(3, 4, 6, 8), 
+                       n.trees = c(1:5)*100, 
+                       shrinkage = seq(0.02, 0.1, 0.02),
+                       n.minobsinnode = 5)
+set.seed(1)                        
+gbm_fit1 <- train(y ~ ., data = musk3, 
+                 method = "gbm", 
+                 trControl = fitControl, metric='ROC',
+                 tuneGrid = gbmGrid,
+                 verbose=F)
+
+gbm_fit1$bestTune
+gbm_fit1$results[90,]
+plot(gbm_fit1)
+preds <- predict(gbm_fit1)
+cf <- table(preds,musk3$y)
+accuracy_rf = sum(diag(cf)/sum(cf))
+print(cf)
+print(accuracy_rf)
+```
+
+Gradient boosting with second representation
+
+```{r}
+set.seed(1)                        
+gbm_fit2 <- train(y ~ ., data = musk4, 
+                  method = "gbm", 
+                  trControl = fitControl, metric='ROC',
+                  tuneGrid = gbmGrid,
+                  verbose=F)
+
+gbm_fit2$bestTune
+gbm_fit2$results[69,]
+plot(gbm_fit2)
+preds <- predict(gbm_fit2)
+cf <- table(preds,musk4$y)
+accuracy_rf = sum(diag(cf)/sum(cf))
+print(cf)
+print(accuracy_rf)
+```
+
+## Conclusion
+Random forest gives better results than gradient boosting.
+Euclidian distance representation gives better results than principal component representation.
+
+
