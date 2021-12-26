@@ -14,3 +14,6 @@ Due to the package problem, I can not run the second question in jupyter noteboo
 
 ## Homework 3
 [On the use of distance information for UwaveGesture Recognition Task-Linear models on alternative representations of the data](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW3/HW3.html)
+
+## Homework 4
+[Multiple Instance Learning](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW4/HW4.html)
