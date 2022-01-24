@@ -17,3 +17,7 @@ Due to the package problem, I can not run the second question in jupyter noteboo
 
 ## Homework 4
 [Multiple Instance Learning](https://bu-ie-582.github.io/fall21-helvaciburakcan/HW4/HW4.html)
+
+## Project
+[Term Project](https://bu-ie-582.github.io/fall21-helvaciburakcan/ProjectReport/IE582_ProjectReport_Group10.pdf)
+[Term Project Codes](https://bu-ie-582.github.io/fall21-helvaciburakcan/Project)
