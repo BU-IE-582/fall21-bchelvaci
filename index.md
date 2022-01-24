@@ -20,4 +20,4 @@ Due to the package problem, I can not run the second question in jupyter noteboo
 
 ## Project
 [Term Project](https://bu-ie-582.github.io/fall21-helvaciburakcan/ProjectReport/IE582_ProjectReport_Group10.pdf)
-[Term Project Codes](https://bu-ie-582.github.io/fall21-helvaciburakcan/Project)
+[Term Project Codes](https://bu-ie-582.github.io/fall21-helvaciburakcan/Project/IE582Project.R)
